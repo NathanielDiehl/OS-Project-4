@@ -6,10 +6,18 @@
 
 #define NUM_THREADS 4
 
+
 typedef struct line_data_struct {
     char* lineStr;
     int lineNum;
 }line_data;
+
+struct time_counter begin, end;
+
+
+long recored_time;
+
+pthread_mutex_t mutexTotal;  // For the char count
 
 void*  getLargestChar(void *arg){
     char* str     = ((line_data*)arg)->lineStr;
@@ -27,7 +35,14 @@ void*  getLargestChar(void *arg){
 int main() {
     int err;
     char *line = (char*) malloc( 2001 ); // no lines larger than 2000 chars
+
+    // Initalize mutex
+    pthread_mutex_init(&total_mutex, NULL)
     
+    // Start recording amont of time it takes to open file and go through for loop/
+    gettimeofday(&begin, NULL);
+   
+//    FILE* f = fopen(/homes/dan/625/wiki_dump.txt, r);   file directory for file we need for checkpoint
     FILE* f = fopen("test.txt", "r");
     if(f == NULL)                                                       //checks if file opens correctly
         return -1;
@@ -46,4 +61,16 @@ int main() {
         pthread_join(newthread[i%NUM_THREADS], NULL);
     }
     fclose( f );
+
+    gettimefday(&end, NULL);
+
+
+
+    // Still have to print the time it took to rad the file. - Tyler
+
+
+    pthread_mutext_destroy(&mutexTotal, NULL);
+
+
 }
+
