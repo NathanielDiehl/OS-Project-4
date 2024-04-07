@@ -6,7 +6,7 @@
 #include <errno.h> 
 
 #define NUM_THREADS 3
-char* fileName = "..\\read_files\\wiki_text.txt";
+char* fileName = "../read_files/wiki_text.txt";
 
 typedef struct line_data_struct {
     int threadNum;
