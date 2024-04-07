@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+char* fileName = "..\\read_files\\wiki_text.txt";
+
 char getLargestChar(FILE* f){
     char new_char;
     char max_char = 0;
@@ -22,7 +24,7 @@ char getLargestChar(FILE* f){
 
 
 int main() {
-    FILE* f = fopen("test.txt", "r");
+    FILE* f = fopen(fileName, "r");
     if(f == NULL)                                                       //checks if file opens correctly
         return -1;
 
