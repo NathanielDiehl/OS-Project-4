@@ -4,6 +4,71 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h> 
+#include <sys/time.h>  // Used for tracking the time it takes for a certain proccess.  (Using for getimeofday).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define NUM_THREADS 3
 char* fileName = "../read_files/wiki_text.txt";
@@ -15,14 +80,21 @@ typedef struct line_data_struct {
 }line_data;
 
 
+struct timeValues startFile, endFile, startChar, endChar;  // For collecting data
+long time, timeChar;
 
-char  getLargestCharInLine(char* str){
+
+
+char  getLargestCharInLine(char* str)
+{
+    gettimeofday(&startChar, NULL);
     char max_char = 0;
 
     for(int i = 0; str[i] != '\0' && str[i] != '\n'; i++)                                        //finds the max char
-        max_char = (str[i]  > max_char) ? str[i]  : max_char;
+        max_char = (str[i]  > max_char) ? str[i] : max_char;
     return max_char;
 }
+
 
 void*  readLines(void *arg){
     sleep(1);
@@ -43,6 +115,8 @@ void*  readLines(void *arg){
 
 
     char max_char;
+    gettimeofday(&startChar, NULL);
+
     for(int line_num = 0;    !feof(f) && (position <= last_line);    line_num++){ 
         if( fscanf( f, "%[^\n]\n", line) == EOF ) break;
 
@@ -51,11 +125,18 @@ void*  readLines(void *arg){
         fgetpos(f, (fpos_t*)&position);
     }
     fclose( f );
-
+    gettimeofday(&endChar, NULL);
+    timeChar = (endChar.tv_sec - startChar.tv_sec) * 1000000 + (endChar.tv_sec - startChar.tv_usec);
+    printf("Amount of time taken for pthreads in seconds: %1f ");
     return NULL;
-}
+
+
 
 int main() {
+
+
+
+    gettimeofday(&start, NULL);
     FILE* f = fopen(fileName, "r");
     if(f == NULL)                                                       //checks if file opens correctly
         return -1;
@@ -71,6 +152,9 @@ int main() {
     long int line_step = (end_position - start_position) / NUM_THREADS;
 
     fclose( f );
+    gettimeofday(&end, NULL);
+    time = (end.tv_Sec - star.tv_Sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    printf("File read in %d microseconds\n", time);
 
     line_data args[NUM_THREADS];
     for(int i = 0; i < NUM_THREADS; i++) {
