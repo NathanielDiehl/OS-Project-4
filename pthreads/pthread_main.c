@@ -80,8 +80,8 @@ typedef struct line_data_struct {
 }line_data;
 
 
-struct timeValues startFile, endFile, startChar, endChar;  // For collecting data
-long time, timeChar;
+struct timeval startFile, endFile, startChar, endChar;  // For collecting data
+long timeElapsed, timeChar;
 
 
 
@@ -136,7 +136,7 @@ int main() {
 
 
 
-    gettimeofday(&start, NULL);
+    gettimeofday(&startFile, NULL);
     FILE* f = fopen(fileName, "r");
     if(f == NULL)                                                       //checks if file opens correctly
         return -1;
@@ -152,8 +152,8 @@ int main() {
     long int line_step = (end_position - start_position) / NUM_THREADS;
 
     fclose( f );
-    gettimeofday(&end, NULL);
-    time = (end.tv_Sec - star.tv_Sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    gettimeofday(&endFile, NULL);
+    timeElapsed = (endFile.tv_sec - startFile.tv_sec) * 1000000 + (endFile.tv_usec - startFile.tv_usec);
     printf("File read in %d microseconds\n", time);
 
     line_data args[NUM_THREADS];
@@ -167,4 +167,5 @@ int main() {
 
     for(int i = 0; i < NUM_THREADS; i++)
         pthread_join(newthread[i], NULL);
+}
 }
