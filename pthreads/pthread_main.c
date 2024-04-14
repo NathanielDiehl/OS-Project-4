@@ -127,14 +127,12 @@ void*  readLines(void *arg){
     fclose( f );
     gettimeofday(&endChar, NULL);
     timeChar = (endChar.tv_sec - startChar.tv_sec) * 1000000 + (endChar.tv_sec - startChar.tv_usec);
-    printf("Amount of time taken for pthreads in seconds: %1f ");
+    printf("Amount of time taken for pthreads in seconds: %.2f ");
     return NULL;
-
+}
 
 
 int main() {
-
-
 
     gettimeofday(&startFile, NULL);
     FILE* f = fopen(fileName, "r");
@@ -154,7 +152,7 @@ int main() {
     fclose( f );
     gettimeofday(&endFile, NULL);
     timeElapsed = (endFile.tv_sec - startFile.tv_sec) * 1000000 + (endFile.tv_usec - startFile.tv_usec);
-    printf("File read in %d microseconds\n", time);
+    printf("File read in %.2f microseconds\n", time);
 
     line_data args[NUM_THREADS];
     for(int i = 0; i < NUM_THREADS; i++) {
@@ -167,5 +165,6 @@ int main() {
 
     for(int i = 0; i < NUM_THREADS; i++)
         pthread_join(newthread[i], NULL);
-}
-}
+   
+   return 0;
+ }
