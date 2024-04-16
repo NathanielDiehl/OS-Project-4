@@ -1,5 +1,14 @@
 Project 4
 CIS 520
+4/14/2024
+
+Members:
+Tyler Rapavi
+Chris Brown
+
+
+
+
 
 Curernt Output (Very incorrect at the moment):
 File read in 0.00 microseconds
